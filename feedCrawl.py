@@ -28,9 +28,9 @@ def crawlFeed(source, feedName, feedUrl):
     startStamp = loadLastStamp(feedName)
     html = urlopen(feedUrl).read()
 
-    client = MongoClient()
-    db = client['big_data']
-    db.html.update({'name': feedName}, {'html': html, 'name':feedName}, upsert=True)
+    # client = MongoClient()
+    # db = client['big_data']
+    # db.html.update({'name': feedName}, {'html': html, 'name':feedName}, upsert=True)
 
     epoch = datetime(1970, 1, 1).replace(tzinfo=pytz.utc)
 
@@ -50,8 +50,10 @@ def crawlFeed(source, feedName, feedUrl):
             break # we're done, this assumes articles are ordered by descending pubDate
 
     newArticles = crawlContent(newArticles) # crawls for content, img and possible keywords (?)
-    saveNewArticles(newArticles) # save to Database
+    # saveNewArticles(newArticles) # save to Database
     print feedName, " => +"+str(len(newArticles))
+    for article in newArticles:
+        print article
 
     saveLastStamp(feedName, latestStamp) # save to not reload articles
 

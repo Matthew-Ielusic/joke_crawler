@@ -91,6 +91,7 @@ def adSelect(tag): # this is the selector for ads, recommended articles, etc
     classList['guardian'] = ['content-footer', 'site-message', 'content__meta-container', 'submeta', 'l-header', 'block-share', 'share-modal__content']
     classList['aljazeera'] = ['unsupported-browser', 'component-articleOpinion', 'hidden-phone', 'relatedResources', 'articleOpinion-secondary', 'articleOpinion-comments', 'dynamicStoryHighlightList', 'brightcovevideo']
     classList['france24'] = ['col-2', 'on-air-board-outer', 'short-cuts-outer']
+    classList['reddit'] = []
     if tag.has_attr('id') and tag.get('id') in idList:
         return True
     if tag.has_attr('class'):

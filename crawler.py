@@ -82,6 +82,14 @@ feeds['aljazeera'].append({'name': 'alj_allfeeds', 'url': 'http://america.aljaze
 feeds['france24'] = []
 feeds['france24'].append({'name': 'f24_livenews', 'url': 'http://www.france24.com/en/timeline/rss'})
 
+sources = ['reddit']
+feeds = {}
+
+feeds['reddit'] = []
+feeds['reddit'].append({'name': 'reddit_jokes', 'url': 'https://www.reddit.com/r/jokes/.xml'})
+feeds['reddit'].append({'name': 'reddit_humor', 'url': 'https://www.reddit.com/r/humor/.xml'})
+feeds['reddit'].append({'name': 'reddit_funny', 'url': 'https://www.reddit.com/r/funny/.xml'})
+
 for source in sources:
     for feed in feeds[source]:
         crawlFeed(source, feed['name'], feed['url'])
