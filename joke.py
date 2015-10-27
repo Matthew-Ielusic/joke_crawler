@@ -51,3 +51,7 @@ class Joke:
     def isValid(self):
         '''Returns true if content, source, sourceURL are all actual values and non-empty strings'''
         return all([content, source, sourceURL])
+
+    def __str__(self):
+        template = "Source: {}\tURL {}\nContent: {}"
+        return template.format(self.source, self.sourceURL, self.content)
