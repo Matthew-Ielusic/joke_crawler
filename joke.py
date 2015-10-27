@@ -25,7 +25,7 @@ class Joke:
         self.guid = guid
         self.pubdate = pubdate
         self.title = title
-        self.entitites = entities
+        self.entities = entities
         self.comments = comments
         self.upvotes = upvotes
         self.downvotes = downvotes
@@ -38,11 +38,13 @@ class Joke:
         document[field_sourceURL] = self.sourceURL
         document[field_pubdate] = self.pubdate
         document[field_title] = self.title
-        # document[field_entities] = self.entities
-        # document[field_comments] = self.comments
-        # document[field_upvotes] = self.upvotes
-        # document[field_downvotes] = self.downvotes
+        document[field_entities] = self.entities
+        document[field_comments] = self.comments
+        document[field_upvotes] = self.upvotes
+        document[field_downvotes] = self.downvotes
         document[field_timestamp] = self.timestamp
+
+        document = {key: val for key, val in document.iteritems() if val}
 
         return document
 
