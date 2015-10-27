@@ -1,5 +1,4 @@
 """Load and save etags from RSS feeds."""
-
 import os
 
 def loadLastStamp(name):
@@ -12,10 +11,9 @@ def loadLastStamp(name):
     """
     path = 'stamps/'+name+'.txt'
     if os.path.isfile(path):
-        # TODO: Convert to `with` syntax.
-        f = open(path)
-        txt = f.read()
-        return float(txt)
+        with open(path) as f:
+            txt = f.read()
+            return float(txt)
     return 0
 
 def saveLastStamp(name, stamp):
@@ -28,6 +26,5 @@ def saveLastStamp(name, stamp):
     stamp -- The timestamp to store with the RSS feed.
     """
     path = 'stamps/' + name + '.txt'
-    # TODO: Convert to `with` syntax.
-    f = open(path,'w')
-    f.write(str(stamp))
+    with open(path, 'w') as f:
+        f.write(str(stamp))

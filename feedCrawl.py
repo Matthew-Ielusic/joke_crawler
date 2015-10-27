@@ -13,6 +13,8 @@ from stamps import * # saving last stamps
 from article import *
 from crawlContent import *
 
+from joke import Joke
+
 def crawlFeed(source, feedName, feedUrl):
     """Crawl an RSS feed.
 
@@ -24,33 +26,36 @@ def crawlFeed(source, feedName, feedUrl):
     Get the jokes with their basic params: title, content, source, sourceURL, guid, pubdate
     """
 
-    # loadLastStamp always returns 0.
     startStamp = loadLastStamp(feedName)
-    html = urlopen(feedUrl).read()
-
-
     epoch = datetime(1970, 1, 1).replace(tzinfo=pytz.utc)
+
+    html = urlopen(feedUrl).read()
 
     soup = BeautifulSoup(html, 'html.parser')
     latestStamp = startStamp
-    newArticles = []
 
-    for it in soup.find_all('item'):
-        dt = extractPubTime(it)
-        guid = extractGuid(it, source)
-        timestamp = (dt - epoch).total_seconds() # Hacky way of going from Datetime object to timestamp
-        if timestamp > startStamp: # new article
+    foundJokes = []
+
+    for item in soup.find_all('item'):
+        pubdate = extractPubTime(item)
+        guid = extractGuid(item, source)
+        sourceUrl = extractLink(item)
+
+        timestamp = (pubdate - epoch).total_seconds() # Hacky way of going from Datetime object to timestamp
+
+        if timestamp > startStamp:
             latestStamp = max(timestamp, latestStamp)
-            url = extractLink(it)
-            newArticles.append(Article(guid, it.title.text, url, timestamp, source, feedName, '', ''))
-        else:
-            break # we're done, this assumes articles are ordered by descending pubDate
 
-    newArticles = crawlContent(newArticles) # crawls for content, img and possible keywords (?)
+            content = ""
+            aJoke = Joke(content, source, sourceUrl, guid, pubdate)
+            print aJoke
+            foundJokes.append(aJoke)
+
+    # newArticles = crawlContent(newArticles) # crawls for content, img and possible keywords (?)
     # saveNewArticles(newArticles) # save to Database
-    print feedName, " => +"+str(len(newArticles))
-    for article in newArticles:
-        print article
+    # print feedName, " => +"+str(len(newArticles))
+    # for article in newArticles:
+    #     print article
 
     saveLastStamp(feedName, latestStamp) # save to not reload articles
 
@@ -60,8 +65,9 @@ def extractPubTime(item):
     Arguments:
     item -- A soup object.
     """
-    dt = parser.parse(item.pubdate.text) # string to Datetime
-    return dt.replace(tzinfo=pytz.utc)
+    dt = parser.parse(item.pubdate.text) # String to Datetime
+    return dt
+    # return dt.replace(tzinfo=pytz.utc)
 
 def extractGuid(item, source):
     """Extract a GUID from the HTML source.
