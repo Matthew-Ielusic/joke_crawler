@@ -39,18 +39,18 @@ class Joke:
         document[field_sourceURL] = self.sourceURL
         document[field_pubdate] = self.pubdate
         document[field_title] = self.title
-        document[field_entities] = self.entities
-        document[field_comments] = self.comments
-        document[field_upvotes] = self.upvotes
-        document[field_downvotes] = self.downvotes
-        document[field_upvotes] = self.upvotes
+        # document[field_entities] = self.entities
+        # document[field_comments] = self.comments
+        # document[field_upvotes] = self.upvotes
+        # document[field_downvotes] = self.downvotes
+        # document[field_upvotes] = self.upvotes
         document[field_timestamp] = self.timestamp
 
         return document
 
     def isValid(self):
         '''Returns true if content, source, sourceURL are all actual values and non-empty strings'''
-        return all([content, source, sourceURL])
+        return all([self.content, self.source, self.sourceURL])
 
     def __str__(self):
         template = "Source: {}\tURL {}\nContent: {}"

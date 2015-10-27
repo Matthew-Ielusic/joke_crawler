@@ -10,10 +10,10 @@ import pytz
 
 from stamps import * # saving last stamps
 
-from article import *
 from crawlContent import *
 
 from joke import Joke
+from hgp_jokes import saveJokes
 
 def crawlFeed(source, feedName, feedUrl):
     """Crawl an RSS feed.
@@ -51,13 +51,14 @@ def crawlFeed(source, feedName, feedUrl):
             print aJoke
             foundJokes.append(aJoke)
 
-    # newArticles = crawlContent(newArticles) # crawls for content, img and possible keywords (?)
-    # saveNewArticles(newArticles) # save to Database
-    # print feedName, " => +"+str(len(newArticles))
-    # for article in newArticles:
-    #     print article
 
-    saveLastStamp(feedName, latestStamp) # save to not reload articles
+    # foundJokes = crawlContent(foundJokes) # crawls for content, img and possible keywords (?)
+
+    print "Discovered {} jokes".format(len(foundJokes))
+    crawlContent(foundJokes) # crawls for joke contents
+    saveJokes(foundJokes) # save to Database
+
+    saveLastStamp(feedName, latestStamp) # Save timestamp
 
 def extractPubTime(item):
     """Create a DateTime object from a BeautifulSoup object that's probably a date.
