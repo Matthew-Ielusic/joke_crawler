@@ -9,7 +9,7 @@ def insertJokes(db, validJokes):
 
 
 def saveJokes(foundJokes):
-    """Add valid articles to the database."""
+    """Add valid jokes to the database."""
     validJokes = [joke for joke in foundJokes if joke.isValid()]
 
     # TODO: Remove this mock of validJokes

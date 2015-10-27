@@ -29,7 +29,6 @@ class Joke:
         self.comments = comments
         self.upvotes = upvotes
         self.downvotes = downvotes
-        self.upvotes = upvotes
         self.timestamp = timestamp
 
     def createJson(self):
@@ -43,7 +42,6 @@ class Joke:
         # document[field_comments] = self.comments
         # document[field_upvotes] = self.upvotes
         # document[field_downvotes] = self.downvotes
-        # document[field_upvotes] = self.upvotes
         document[field_timestamp] = self.timestamp
 
         return document
