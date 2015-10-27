@@ -1,32 +1,24 @@
-Quick and Dirty operating crawler
-============
+#Crawler
 
-Goal of QDoc:
-============
+###Goal:
 
-From a few RSS feeds from the biggest News Sources, build a database of cleaned articles.
-
-
-New here?
-==============
-
-Here's what you can do to get started:
-
-* Clone our github, look at what we are working on, talk to us to see how you could help.
-* Check out the Trello (todolist): to see what is needed: https://trello.com/b/dhBV2BUP/big-data-club
-* Check out our issues on Github and get started.
+From a few RSS feeds of various sources, collect jokes and store into our own DB
 
 Installation Guide
-==================
 
 1. Install Python 2.
 1. Install `pip` if you're on Windows.
 1. Install all of the dependencies in `Dependnencies.txt`.
 1. Run `python crawler.py`.
 
+##Dependencies
+- Python 2.7
+- Beautiful Soup 4 (pip install beautifulsoup4)
+- PIL: Python Imaging Library (pip install pillow)
+- Pymongo: For Database interaction (pip install pymongo)
+- Dateutil : Date Parsing (pip install python-dateutil)
+- Pytz: For timezones (pip install pytz)
+
 Contact:
 ===========
-
-* plaban3@gatech.edu
-* smarder3@gatech.edu
-* mersted@gatech.edu
+msakhi3@gatech.edu
