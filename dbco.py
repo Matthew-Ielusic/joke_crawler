@@ -1,5 +1,6 @@
 from pymongo import MongoClient, errors
 
 # TODO: Move this to a config file.
-client = MongoClient('mongodb://146.148.59.202:27017/')
-db = client['big_data']
+localConnection = 'mongodb://127.0.0.1:27017/'
+client = MongoClient(localConnection)
+db = client['hgp']

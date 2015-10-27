@@ -17,20 +17,17 @@ def crawlFeed(source, feedName, feedUrl):
     """Crawl an RSS feed.
 
     Arguments:
-    source -- Main name of the news site (e.g. cnn, nyt, etc.).
-    feedName -- The title of the RSS feed (e.g. 'cnn_world', 'cnn_sport').
+    source -- Main name of the site (e.g. Reddit).
+    feedName -- The title of the RSS feed (e.g. 'reddit_humor', 'reddit_jokes').
     feedUrl -- An RSS feed url to extract links from (e.g. 'http://*.rss').
+
+    Get the jokes with their basic params: title, content, source, sourceURL, guid, pubdate
     """
 
-    # Given a feedname from a Source and a URL of where the Rss feed is,
-    # Get the new articles, with their basic params: Title, URL, Publish Time
     # loadLastStamp always returns 0.
     startStamp = loadLastStamp(feedName)
     html = urlopen(feedUrl).read()
 
-    # client = MongoClient()
-    # db = client['big_data']
-    # db.html.update({'name': feedName}, {'html': html, 'name':feedName}, upsert=True)
 
     epoch = datetime(1970, 1, 1).replace(tzinfo=pytz.utc)
 
@@ -75,10 +72,6 @@ def extractGuid(item, source):
     guidItem = item.find('guid')
     if guidItem is not None:
         guid = guidItem.text
-        if source == 'reuters' and 'http' in guid: # assholes
-            toks = guid.split('?')
-            tok2 = toks[0].split('/') # take out the GET paramaters
-            guid = tok2[len(tok2)-1][:-8] # 1) keep last piece of url, 2) take out 8 digits of date lol
         return guid
     return ''
 
