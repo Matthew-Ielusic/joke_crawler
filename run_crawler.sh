@@ -1,6 +1,5 @@
 #!/bin/sh -eu
 
-# cd /home/QDoc/
 # TODO: Move this date stamp to Python.
-echo $(date) >> QDocRuns.log
+echo $(date) >> crawler_runs.log
 python crawler.py
