@@ -14,7 +14,6 @@ Installation Guide
 ##Dependencies
 - Python 2.7
 - Beautiful Soup 4 (pip install beautifulsoup4)
-- PIL: Python Imaging Library (pip install pillow)
 - Pymongo: For Database interaction (pip install pymongo)
 - Dateutil : Date Parsing (pip install python-dateutil)
 - Pytz: For timezones (pip install pytz)

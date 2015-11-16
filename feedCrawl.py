@@ -51,9 +51,6 @@ def crawlFeed(source, feedName, feedUrl):
             print aJoke
             foundJokes.append(aJoke)
 
-
-    # foundJokes = crawlContent(foundJokes) # crawls for content, img and possible keywords (?)
-
     print "Discovered {} jokes".format(len(foundJokes))
     crawlContent(foundJokes) # crawls for joke contents
     saveJokes(foundJokes) # save to Database

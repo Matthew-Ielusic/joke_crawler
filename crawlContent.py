@@ -1,6 +1,5 @@
 import urllib, urllib2
 from dateutil.parser import *
-from PIL import ImageFile
 from bs4 import BeautifulSoup, Comment, Doctype, NavigableString
 
 # TODO: Remove need for strange global variable.
@@ -28,8 +27,6 @@ def crawlContent(jokes):
 
                 joke.content = content
 
-                # bestImage = getBiggestImg(a, soup)
-
                 jokes[i] = joke
                 with open("test.html", "w") as f:
                     f.write(soup.prettify('utf-8'))
@@ -38,27 +35,6 @@ def crawlContent(jokes):
             except:
                 pass
     return jokes
-
-def getBiggestImg(joke, soup):
-    """Get the URL of the largest image on page."""
-    bestUrl = ''
-    maxDim = 0
-    imgs = soup.findAll('img')
-    for img in imgs:
-        url = ''
-        if img.has_attr('data-src-small'): # fucking CNN, can't get it right
-            url = img.get('data-src-small')
-        elif img.has_attr('src'):
-            url = img.get('src')
-        if url != '':
-            if 'http://' not in url and joke.sourceURL == 'business_insider':
-                url = 'http://www.businessinsider.in'+url
-            if 'doubleclick.net' not in url:
-                sizes = getImageSizes(url)
-                if sizes[1] is not None and (sizes[1][0]*sizes[1][1]) > maxDim:
-                    maxDim = (sizes[1][0]*sizes[1][1])
-                    bestUrl = url
-    return bestUrl
 
 def removeHeaderNavFooter(soup, source):
     hnfs = soup.findAll({'header', 'nav', 'footer', 'aside'})
@@ -159,24 +135,3 @@ def visible(element):
     if element.parent.name in ['style', 'script', 'noscript', '[document]', 'head', 'title']:
         return False
     return True
-
-def getImageSizes(uri):
-    # get file size *and* image size (None if not known)
-    # http://effbot.org/zone/pil-image-size.htm
-    try:
-        file = urllib2.urlopen(uri, timeout=0.5)
-        size = file.headers.get("content-length")
-        if size: size = int(size)
-        p = ImageFile.Parser()
-        while 1:
-            data = file.read(1024)
-            if not data:
-                break
-            p.feed(data)
-            if p.image:
-                return size, p.image.size
-                break
-        file.close()
-        return size, None
-    except:
-        return [0, [0,0]]
