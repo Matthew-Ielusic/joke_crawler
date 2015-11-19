@@ -85,6 +85,13 @@ def adSelect(tag): # this is the selector for ads, recommended articles, etc
                 return True
     return False
 
+def getProfile(soup):
+    # page = requests.get('https://www.reddit.com/r/Jokes/comments/3tfdo5/pretty_woman_sneezes/')
+    # tree = html.fromstring(page.content)
+    alldiv = soup.findAll('p', { "class" : "tagline" })
+    for div in alldiv:
+        print div.a['href']
+
 def getContent(soup):
     elems = soup.findAll(text=True and visible)
     buildText = []
