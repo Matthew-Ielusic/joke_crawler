@@ -86,17 +86,14 @@ def adSelect(tag): # this is the selector for ads, recommended articles, etc
     return False
 
 def getContent(soup):
-    elems = soup.findAll(text=True and visible)
     buildText = []
-    for elem in elems:
-        if isinstance(elem, NavigableString):
-            txt = elem.encode('utf-8')
-            # score = calcScore(elem, txt)
-            # if score > 0:
-                # print "[",score,"]", txt
-            buildText.append(txt)
-        else:
-            pass
+    title = soup.head.title.string
+    titleText = title.encode('utf-8')
+    buildText.append(titleText)
+
+    body = soup.find('meta', attrs={"name":'description'})
+    bodyText = body[0]['content'].encode('utf-8')
+    buildText.append(bodyText)
     return "\n".join(buildText)
 
 def isDate(txt):
