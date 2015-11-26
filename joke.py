@@ -15,10 +15,11 @@ field_downvotes = "downvotes"
 field_upvotes = "upvotes"
 field_timestamp = "timestamp"
 field_pubdate = "pubdate"
+field_author = "author"
 
 class Joke:
 
-    def __init__(self, content, source, sourceURL, guid, pubdate=None, title=None, entities=None, comments=None, upvotes=None, downvotes=None, timestamp=None):
+    def __init__(self, content, source, sourceURL, guid, pubdate=None, title=None, entities=None, comments=None, upvotes=None, downvotes=None, timestamp=None, author=None):
         self.content = content
         self.source = source
         self.sourceURL = sourceURL
@@ -30,6 +31,7 @@ class Joke:
         self.upvotes = upvotes
         self.downvotes = downvotes
         self.timestamp = timestamp
+        self.author = author
 
     def createJson(self):
         document = {}
@@ -44,6 +46,7 @@ class Joke:
         document[field_upvotes] = self.upvotes
         document[field_downvotes] = self.downvotes
         document[field_timestamp] = self.timestamp
+        document[field_author] = self.author
 
         document = {key: val for key, val in document.iteritems() if val}
 
@@ -62,13 +65,14 @@ class Joke:
         upvotes = jokeJson.get(field_upvotes)
         downvotes = jokeJson.get(field_downvotes)
         timestamp = jokeJson.get(field_timestamp)
+        author = jokeJson.get(field_author)
 
         # Convert to appropriate data types as needed
         upvotes = int(upvotes) if upvotes else upvotes
         downvotes = int(downvotes) if downvotes else downvotes
         timestamp = long(timestamp) if timestamp else timestamp
 
-        return Joke(content, source, sourceURL, guid, pubdate, title, entities, comments, upvotes, downvotes, timestamp)
+        return Joke(content, source, sourceURL, guid, pubdate, title, entities, comments, upvotes, downvotes, timestamp, author)
 
 
     def isValid(self):

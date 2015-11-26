@@ -16,6 +16,7 @@ Installation Guide
 - Beautiful Soup 4 (pip install beautifulsoup4)
 - Pymongo: For Database interaction (pip install pymongo)
 - Dateutil : Date Parsing (pip install python-dateutil)
+- Praw: Wrapper for Reddit API (pip install praw)
 - Pytz: For timezones (pip install pytz)
 
 Contact:
