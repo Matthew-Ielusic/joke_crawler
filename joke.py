@@ -37,6 +37,7 @@ class Joke:
         document[field_source] = self.source
         document[field_sourceURL] = self.sourceURL
         document[field_pubdate] = self.pubdate
+        document[field_guid] = self.guid
         document[field_title] = self.title
         document[field_entities] = self.entities
         document[field_comments] = self.comments
@@ -47,6 +48,28 @@ class Joke:
         document = {key: val for key, val in document.iteritems() if val}
 
         return document
+
+    @classmethod
+    def fromJson(Joke, jokeJson):
+        content = jokeJson.get(field_content)
+        source = jokeJson.get(field_source)
+        sourceURL = jokeJson.get(field_sourceURL)
+        pubdate = jokeJson.get(field_pubdate)
+        guid = jokeJson.get(field_guid)
+        title = jokeJson.get(field_title)
+        entities = jokeJson.get(field_entities)
+        comments = jokeJson.get(field_comments)
+        upvotes = jokeJson.get(field_upvotes)
+        downvotes = jokeJson.get(field_downvotes)
+        timestamp = jokeJson.get(field_timestamp)
+
+        # Convert to appropriate data types as needed
+        upvotes = int(upvotes) if upvotes else upvotes
+        downvotes = int(downvotes) if downvotes else downvotes
+        timestamp = long(timestamp) if timestamp else timestamp
+
+        return Joke(content, source, sourceURL, guid, pubdate, title, entities, comments, upvotes, downvotes, timestamp)
+
 
     def isValid(self):
         '''Returns true if content, source, sourceURL are all actual values and non-empty strings'''
