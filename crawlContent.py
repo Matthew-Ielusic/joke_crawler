@@ -41,7 +41,8 @@ def handleRedditJoke(joke, redditAgent):
         total_votes = int(round(joke.upvotes / submission.upvote_ratio))
         joke.downvotes = total_votes - joke.upvotes
 
-        joke.author = submission.author.name
+        if submission.author:
+            joke.author = str(submission.author.name)
 
     else:
         raise ValueError
