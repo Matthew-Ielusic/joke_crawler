@@ -6,10 +6,10 @@ THIS_FILE=$(basename $TO_HERE)
 
 TO_THIS_DIR=${TO_HERE%$THIS_FILE}
 
-echo $TO_THIS_DIR;
-
 cd $TO_THIS_DIR
 
-echo $(date) >> crawler_runs.log
-python crawler.py >> crawler_runs.log
+echo $(date) >> log_feed_crawler.log
+python feed_crawler.py >> log_feed_crawler.log
 
+echo $(date) >> log_content_crawler.log
+python content_crawler.py >> log_content_crawler.log
