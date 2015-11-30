@@ -11,16 +11,17 @@ def insertJokes(db, validJokes):
 
 
 def upsertJokes(jokes):
-    bulk = db.jokes.initialize_ordered_bulk_op()
-    for joke in jokes:
-        bulk.find({
-            'sourceURL': joke.sourceURL
-        }).upsert().update_one({
-            '$set': joke.createJson()
-        })
+    if jokes:
+        bulk = db.jokes.initialize_ordered_bulk_op()
+        for joke in jokes:
+            bulk.find({
+                'sourceURL': joke.sourceURL
+            }).upsert().update_one({
+                '$set': joke.createJson()
+            })
 
-    result = bulk.execute()
-    print result
+        result = bulk.execute()
+        print result
 
 
 def saveJokes(foundJokes):
