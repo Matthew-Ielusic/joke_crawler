@@ -16,7 +16,9 @@ week_ago = now - week_difference
 # TODO: Fetch jokes we saw posted at least a week ago
 jokes = db.jokes.find(
     {
-        'content': '',
+        'content': {
+            "$in": [None, '']
+        },
         'pubdate':
         {
             '$lt': week_ago,
