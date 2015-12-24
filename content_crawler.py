@@ -7,6 +7,9 @@ import hgp_jokes
 from datetime import datetime, timedelta
 import time
 
+
+NUM_JOKES = 30
+
 start_time = time.time()
 
 now = datetime.now()
@@ -17,15 +20,22 @@ week_ago = now - week_difference
 jokes = db.jokes.find(
     {
         'content': {
+            # Content not found
             "$in": [None, '']
         },
         'pubdate':
         {
+            # Published at least a week ago
             '$lt': week_ago,
+        },
+        'visited': {
+            # Unvisited
+            '$in': [None, False]
         }
-    }).limit(20)
+    }).limit(NUM_JOKES)
 
 if jokes:
+    # Convert joke json to Joke objects
     jokes = map(lambda joke: Joke.fromJson(joke), jokes)
     crawlContent.crawlContent(jokes)
     hgp_jokes.saveJokes(jokes)

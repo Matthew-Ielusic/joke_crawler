@@ -16,10 +16,11 @@ field_upvotes = "upvotes"
 field_timestamp = "timestamp"
 field_pubdate = "pubdate"
 field_author = "author"
+field_visited = "visited"
 
 class Joke:
 
-    def __init__(self, content, source, sourceURL, guid, pubdate=None, title=None, entities=None, comments=None, upvotes=None, downvotes=None, timestamp=None, author=None):
+    def __init__(self, content, source, sourceURL, guid, pubdate=None, title=None, entities=None, comments=None, upvotes=None, downvotes=None, timestamp=None, author=None, visited=False):
         self.content = content
         self.source = source
         self.sourceURL = sourceURL
@@ -32,6 +33,7 @@ class Joke:
         self.downvotes = downvotes
         self.timestamp = timestamp
         self.author = author
+        self.visited = visited
 
     def createJson(self):
         document = {}
@@ -50,6 +52,9 @@ class Joke:
 
         document = {key: val for key, val in document.iteritems() if val}
 
+        # Always add in after so visited field always shows in JSON
+        document[field_visited] = self.visited
+
         return document
 
     @classmethod
@@ -66,19 +71,27 @@ class Joke:
         downvotes = jokeJson.get(field_downvotes)
         timestamp = jokeJson.get(field_timestamp)
         author = jokeJson.get(field_author)
+        visited = jokeJson.get(field_visited)
+
+        if visited is None:
+            visited = False
 
         # Convert to appropriate data types as needed
         upvotes = int(upvotes) if upvotes else upvotes
         downvotes = int(downvotes) if downvotes else downvotes
         timestamp = long(timestamp) if timestamp else timestamp
 
-        return Joke(content, source, sourceURL, guid, pubdate, title, entities, comments, upvotes, downvotes, timestamp, author)
+        return Joke(content, source, sourceURL, guid, pubdate, title, entities, comments, upvotes, downvotes, timestamp, author, visited)
 
 
     def isValid(self):
         '''Returns true if content, source, sourceURL are all actual values and non-empty strings'''
         return all([self.content, self.source, self.sourceURL])
 
+    def __repr__(self):
+        template = "Joke Title: {}\tVisited: {}"
+        return template.format(self.title.encode('ascii', 'ignore'), self.visited)
+
     def __str__(self):
-        template = "Source: {}\tURL {}\nContent: {}"
-        return template.format(self.source, self.sourceURL, self.content)
+        template = "Joke Title: {}\tVisited: {}"
+        return template.format(self.title.encode('ascii', 'ignore'), self.visited)

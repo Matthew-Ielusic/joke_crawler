@@ -37,6 +37,8 @@ def handleRedditJoke(joke, redditAgent):
         joke.content = submission.selftext
         joke.title = submission.title
 
+        joke.visited = True
+
         joke.upvotes = submission.ups
         total_votes = int(round(joke.upvotes / submission.upvote_ratio))
         joke.downvotes = total_votes - joke.upvotes
