@@ -11,5 +11,8 @@ cd $TO_THIS_DIR
 echo $(date) >> log_feed_crawler.log
 python feed_crawler.py >> log_feed_crawler.log
 
+# Sleep for 5 seconds before running next script
+sleep 5
+
 echo $(date) >> log_content_crawler.log
 python content_crawler.py >> log_content_crawler.log

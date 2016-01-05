@@ -18,6 +18,7 @@ def crawlContent(jokes):
     for joke in jokes:
         if isinstance(joke, Joke) and joke.source == source_reddit:
             handleRedditJoke(joke, redditAgent)
+            time.sleep(2)
     return jokes
 
 def extractRedditSubmissionId(sourceURL):

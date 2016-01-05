@@ -14,6 +14,6 @@ feeds['reddit'].append({'name': 'reddit_funny', 'url': 'https://www.reddit.com/r
 for source in sources:
     for feed in feeds[source]:
         crawlFeed(source, feed['name'], feed['url'])
-        time.sleep(1)
+        time.sleep(2)
 
 print("--- %s seconds ---" % round(time.time() - start_time, 2))

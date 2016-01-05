@@ -90,8 +90,14 @@ class Joke:
 
     def __repr__(self):
         template = "Joke Title: {}\tVisited: {}"
-        return template.format(self.title.encode('ascii', 'ignore'), self.visited)
+        title, visited = self.title, self.visited
+        if not title:
+            title = ''
+        return template.format(title.encode('ascii', 'ignore'), visited)
 
     def __str__(self):
         template = "Joke Title: {}\tVisited: {}"
-        return template.format(self.title.encode('ascii', 'ignore'), self.visited)
+        title, visited = self.title, self.visited
+        if not title:
+            title = ''
+        return template.format(title.encode('ascii', 'ignore'), visited)
