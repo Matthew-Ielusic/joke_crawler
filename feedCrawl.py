@@ -27,19 +27,19 @@ def crawlFeed(source, feedName, feedUrl):
     """
 
     startStamp = loadLastStamp(feedName)
-    epoch = datetime(1970, 1, 1).replace(tzinfo=pytz.utc)
-
-    html = urlopen(feedUrl).read()
-
-    soup = BeautifulSoup(html, 'html.parser')
     latestStamp = startStamp
+
+    epoch = datetime(1970, 1, 1).replace(tzinfo=pytz.utc)
+    html = urlopen(feedUrl).read()
+    soup = BeautifulSoup(html, 'html.parser')
 
     foundJokes = []
 
-    for item in soup.find_all('item'):
-        pubdate = extractPubTime(item)
+    for item in soup.find_all('entry'):
+        pubdate = extractPubTime(item, source)
         guid = extractGuid(item, source)
-        sourceUrl = extractLink(item)
+        sourceUrl = extractLink(item, source)
+        title = extractTitle(item, source)
 
         timestamp = (pubdate - epoch).total_seconds() # Hacky way of going from Datetime object to timestamp
 
@@ -47,24 +47,28 @@ def crawlFeed(source, feedName, feedUrl):
             latestStamp = max(timestamp, latestStamp)
 
             content = ""
-            aJoke = Joke(content, source, sourceUrl, guid, pubdate)
+            aJoke = Joke(content, source, sourceUrl, guid, pubdate, title=title)
             print aJoke
             foundJokes.append(aJoke)
 
     print "Discovered {} jokes from {}".format(len(foundJokes), feedName)
-    crawlContent(foundJokes) # crawls for joke contents
+    # crawlContent(foundJokes) # crawls for joke contents
     saveJokes(foundJokes) # save to Database
 
     saveLastStamp(feedName, latestStamp) # Save timestamp
 
-def extractPubTime(item):
+def extractPubTime(item, source):
     """Create a DateTime object from a BeautifulSoup object that's probably a date.
 
     Arguments:
     item -- A soup object.
     """
-    dt = parser.parse(item.pubdate.text) # String to Datetime
-    return dt
+    if source == 'reddit':
+        pubdate = item.find('updated').text
+        dt = parser.parse(pubdate) # String to Datetime
+        return dt
+
+    return None
     # return dt.replace(tzinfo=pytz.utc)
 
 def extractGuid(item, source):
@@ -79,16 +83,29 @@ def extractGuid(item, source):
         return guid
     return ''
 
-def extractLink(item):
+def extractLink(item, source):
     """Extract a canonical link from the article.
 
     Arguments:
     item -- A BeautifulSoup object.
     """
-    t1 = item.find('feedburner:origlink')
-    t2 = item.find('link')
-    if t1 is not None:
-        return t1.text
-    elif t2 is not None:
-        return t2.text
+    if source == "reddit":
+        link = item.find('link').text
+        return link
+
+    return ''
+
+
+def extractTitle(item, source):
+    """Extract a title from the article.
+
+    Arguments:
+    item -- A BeautifulSoup object.
+    source -- A source site. Ex: 'reddit'
+    """
+
+    if source == "reddit":
+        title = item.find('title').text
+        return title
+
     return ''
